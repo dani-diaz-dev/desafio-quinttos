@@ -70,7 +70,6 @@ class TaskController extends Controller
                 ->with('success', 'Tarea actualizada correctamente.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error al actualizar tarea: ' . $e->getMessage());
             return redirect()
                 ->back()
                 ->withInput()
@@ -91,7 +90,6 @@ class TaskController extends Controller
                 ->with('success', 'Tarea eliminada correctamente.');
         } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Error al eliminar tarea: ' . $e->getMessage());
             return redirect()
                 ->route('tasks.index')
                 ->with('error', 'No se pudo eliminar la tarea.');
