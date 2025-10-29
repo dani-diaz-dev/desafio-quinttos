@@ -14,6 +14,7 @@ class Task extends Model
         'title',
         'description',
         'status',
+        'user_id',
     ];
 
     public function getStatusLabelAttribute(): string
@@ -23,5 +24,10 @@ class Task extends Model
             'completed' => 'Completada',
             default => ucfirst($this->status),
         };
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
