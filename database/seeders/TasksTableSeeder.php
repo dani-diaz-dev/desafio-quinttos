@@ -17,14 +17,14 @@ class TasksTableSeeder extends Seeder
             [
                 'title' => 'Crear proyecto',
                 'description' => 'Instalar Laravel y dependencias',
-                'status' => 'Completada',
+                'status' => 'completed',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'title' => 'Cambiar lampara',
                 'description' => 'Cambiar lamparita quemada en el patio',
-                'status' => 'Pendiente',
+                'status' => 'pending',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
