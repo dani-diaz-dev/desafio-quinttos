@@ -10,7 +10,7 @@ class TaskRepository
 
     public function getAll(array $filters = []): Collection
     {
-        $query = Task::query();
+        $query = Task::query()->where('user_id', $filters['user_id']);
 
         if (!empty($filters['status'])) {
             $query->where('status', $filters['status']);

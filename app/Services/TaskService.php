@@ -15,11 +15,13 @@ class TaskService
 
     public function getAllTasks(array $filters = []): \Illuminate\Database\Eloquent\Collection
     {
+        $filters['user_id'] = auth()->id();
         return $this->taskRepository->getAll($filters);
     }
 
     public function createTask(array $data)
     {
+        $data['user_id'] = auth()->id();
         return $this->taskRepository->create($data);
     }
 
