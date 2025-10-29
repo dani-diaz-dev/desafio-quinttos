@@ -16,4 +16,9 @@ class TaskService
     {
         return $this->taskRepository->getAll($filters);
     }
+
+    public function createTask(array $data)
+    {
+        return $this->taskRepository->create($data);
+    }
 }

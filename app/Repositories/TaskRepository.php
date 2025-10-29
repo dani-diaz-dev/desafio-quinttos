@@ -22,4 +22,9 @@ class TaskRepository
 
         return $query->orderBy('created_at', 'desc')->get();
     }
+
+    public function create(array $data): Task
+    {
+        return Task::create($data);
+    }
 }
