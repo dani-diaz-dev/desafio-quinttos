@@ -36,13 +36,14 @@
         </form>
 
         {{-- Tabla --}}
-        <table class="table table-striped">
+        <table class="table table-striped align-middle">
             <thead>
             <tr>
                 <th>Título</th>
                 <th>Descripción</th>
                 <th>Estado</th>
                 <th>Fecha</th>
+                <th class="text-end">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -56,49 +57,57 @@
                     </span>
                     </td>
                     <td>{{ $task->created_at->format('d/m/Y H:i') }}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-primary edit-btn" data-id="{{ $task->id }}">Editar</button>
+                        <button class="btn btn-sm btn-danger delete-btn" data-id="{{ $task->id }}">Eliminar</button>
+                    </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4" class="text-center">No se encontraron tareas.</td>
+                    <td colspan="5" class="text-center">No se encontraron tareas.</td>
                 </tr>
             @endforelse
             </tbody>
         </table>
     </div>
 
-    {{-- Modal Crear Tarea --}}
-    <div class="modal fade" id="createTaskModal" tabindex="-1" aria-labelledby="createTaskModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('tasks.store') }}">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="createTaskModalLabel">Nueva tarea</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Título</label>
-                            <input type="text" name="title" id="title" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Descripción</label>
-                            <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Estado</label>
-                            <select name="status" id="status" class="form-select">
-                                <option value="pending" selected>Pendiente</option>
-                                <option value="completed">Completada</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+    {{-- Modal Crear --}}
+    @include('tasks.partials.create-modal')
+
+    {{-- Modal Editar --}}
+    @include('tasks.partials.edit-modal')
+
+    {{-- Modal Eliminar --}}
+    @include('tasks.partials.delete-modal')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Editar tarea
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const id = btn.dataset.id;
+                    const res = await fetch(`/tasks/${id}/edit`);
+                    const task = await res.json();
+
+                    document.getElementById('editId').value = task.id;
+                    document.getElementById('editTitle').value = task.title;
+                    document.getElementById('editDescription').value = task.description || '';
+                    document.getElementById('editStatus').value = task.status;
+
+                    document.getElementById('editTaskForm').action = `/tasks/${id}`;
+                    new bootstrap.Modal('#editTaskModal').show();
+                });
+            });
+
+            // Eliminar tarea
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    document.getElementById('deleteTaskForm').action = `/tasks/${id}`;
+                    document.getElementById('deleteId').value = id;
+                    new bootstrap.Modal('#deleteTaskModal').show();
+                });
+            });
+        });
+    </script>
 @endsection
