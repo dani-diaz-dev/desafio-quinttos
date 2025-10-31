@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateTaskRequest;
 use App\Http\Requests\TaskFilterRequest;
-use App\Http\Requests\TaskIdRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Services\TaskService;
 use Illuminate\Support\Facades\DB;
@@ -77,12 +76,12 @@ class TaskController extends Controller
         }
     }
 
-    public function destroy(TaskIdRequest $request)
+    public function destroy(int $id)
     {
         try {
             DB::beginTransaction();
 
-            $this->taskService->deleteTask($request->input('id'));
+            $this->taskService->deleteTask($id);
 
             DB::commit();
             return redirect()

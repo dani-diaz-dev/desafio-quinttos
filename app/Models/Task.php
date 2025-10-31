@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Task extends Model
 {
     protected $table = 'tasks';
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
+
     protected $fillable = [
         'title',
         'description',

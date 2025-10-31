@@ -81,3 +81,11 @@ Por defecto, el seeder cargará un usuario con rol administrador.
 `php artisan optimize:clear` — Limpia cachés de configuración/rutas/vistas
 
 ---
+## Testing local
+
+Se han creado test de cobertura para las entidades principales del proyecto. 
+Para ejecutar los tests utilizar el siguiente comando:
+```bash
+
+php artisan test
+```
